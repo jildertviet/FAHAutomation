@@ -26,12 +26,14 @@ void ofApp::update(){
 }
 
 void ofApp::turnFAHOn(){
+    bRunning = true;
     cout << "Turn FAH on" << endl;
 //    ofSystem("FAHClient --send-unpause 0");
     ofSystem("echo 'unpause 0' | telnet localhost 36330");
 }
 
 void ofApp::turnFAHOff(){
+    bRunning = false; 
     cout << "Turn FAH off" << endl;
 //    ofSystem("FAHClient --send-pause 0");
     ofSystem("echo 'pause 0' | telnet localhost 36330");
