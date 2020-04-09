@@ -19,6 +19,7 @@ void ofApp::update(){
             if(overProduction < 200 && bRunning == true){
                 turnFAHOff();
             }
+            smartMeter.close();
         }
     } else{
         ofxTCPSettings settings("192.168.178.35", 8888);
