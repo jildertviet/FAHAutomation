@@ -3,9 +3,6 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofSetFrameRate(1);
-    ofxTCPSettings settings("192.168.178.35", 8888);
-    smartMeter.setup(settings);
-    smartMeter.setMessageDelimiter("\n");
 }
 
 //--------------------------------------------------------------
@@ -22,7 +19,12 @@ void ofApp::update(){
                 turnFAHOff();
             }
         }
+    } else{
+        ofxTCPSettings settings("192.168.178.35", 8888);
+        smartMeter.setup(settings);
+        smartMeter.setMessageDelimiter("\n");
     }
+    ofSleepMillis(2000);
 }
 
 void ofApp::turnFAHOn(){
