@@ -11,22 +11,28 @@ void ofApp::update(){
     if(smartMeter.isConnected()){
         string msg = smartMeter.receive();
         if( msg.length() > 0 ){
-            overProduction = ofToInt(ofSplitString(msg, " ")[1]);
-            cout << overProduction << endl;
+            vector<string> lines = ofSplitString(msg, "\n");
+            for(int i=0; i<lines.size(); i++){
+                if(ofStringTimesInString(lines[i], "Leveren:")){
+                    overProduction = ofToInt(ofSplitString(lines[i], ":")[1]);
+                    cout << overProduction << endl;
+                }
+            }
             if(overProduction > 500 && bRunning == false){
                 turnFAHOn();
             }
             if(overProduction < 200 && bRunning == true){
                 turnFAHOff();
             }
+            ofSleepMillis(2000);
             smartMeter.close();
         }
     } else{
+        ofSleepMillis(2000);
         ofxTCPSettings settings("192.168.178.35", 8888);
         smartMeter.setup(settings);
-        smartMeter.setMessageDelimiter("\n");
+        smartMeter.setMessageDelimiter("m3\n\n"); // Changed the msg-style from ESP32 to a human readable version, these are the last char's
     }
-    ofSleepMillis(2000);
 }
 
 void ofApp::turnFAHOn(){
